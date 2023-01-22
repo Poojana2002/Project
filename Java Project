@@ -1,0 +1,70 @@
+import java.util.*;
+import java.io.*;
+
+public class Main
+{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        //Measure Object1 = new Measure();
+        ShowResults Object1 = new ShowResults();
+        for(int i=0;i<10;i++)
+        {
+            Object1.Method1(sc.nextFloat(),sc.nextFloat());
+        }
+        Object1.Method1();
+        for(int j=0;j<10;j++);
+        {
+            //System.out.println(Object1.time[j] + " " + Object1.distance[j] + " " + Object1.speed[j]);
+        }
+    }
+}
+class DataSet
+{
+    public float time[] = new float[10];
+    public float distance[] = new float[10];
+    public float speed[] = new float[10];
+}
+class UserInput extends DataSet
+{
+    int index = 0;
+    void Method1(float time, float distance)
+    {
+        this.time[index] = time;
+        this.distance[index] = distance;
+        index++;
+    }
+}
+class Measure extends UserInput
+{
+    void Method1()
+    {
+        float speed;
+        for(int i=0;i<10;i++)
+        {
+            this.speed[i] = this.distance[i]/this.time[i];
+        }
+    }
+}
+class ShowResults extends Measure
+{
+    void Method1()
+    {
+        super.Method1();
+        File csvfile = new File("results.csv");
+        try
+        {
+            csvfile.createNewFile();
+            FileWriter fw = new FileWriter(csvfile);
+            for(int i=0;i<10;i++)
+            {
+                fw.write(this.time[i] + "," + this.distance[i] + "," + this.speed[i]);
+            }
+            fw.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+}
